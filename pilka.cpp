@@ -140,7 +140,7 @@ void Pilka::show( SDL_Renderer * ren, Paletka & p1, Paletka & p2, Cyfra & cyf1, 
 		default:
 			break;
 	}
-	++licz;
+	licz++;
 	if (licz > 4 ) licz = 0;
 }
 
