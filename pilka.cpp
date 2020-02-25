@@ -76,7 +76,7 @@ void Pilka::move()
 	if ( czyodbita == false )
 		x = 3;
 	else
-		x = 10;
+		x = 7;
 	
 	switch (kierunek)
 	{
@@ -132,16 +132,16 @@ void Pilka::show( SDL_Renderer * ren, Paletka & p1, Paletka & p2, Cyfra & cyf1, 
 	switch (kierunek)
 	{
 		case 'p':	
-			SDL_RenderCopy( ren, pilkaTex, &pilkaSprite[0][licz], &pilkaRect );
+			SDL_RenderCopy( ren, pilkaTex, &pilkaSprite[0][licz/15], &pilkaRect );
 			break;
 		case 'l':
-			SDL_RenderCopy( ren, pilkaTex, &pilkaSprite[1][licz], &pilkaRect );
+			SDL_RenderCopy( ren, pilkaTex, &pilkaSprite[1][licz/15], &pilkaRect );
 			break;
 		default:
 			break;
 	}
 	licz++;
-	if (licz > 4 ) licz = 0;
+	if (licz > 60 ) licz = 0;
 }
 
 bool Pilka::kolizja( Paletka & p1, Paletka & p2 )
