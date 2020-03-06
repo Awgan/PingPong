@@ -20,6 +20,7 @@ void staleRun();
  int SIATKA_WYS		;
 
 
+
 int main ( int argc, char * argv[] )
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0 )
@@ -60,6 +61,11 @@ int main ( int argc, char * argv[] )
 		SDL_Quit();
 		return 1;
 	}
+	if ( SDL_SetRenderDrawColor(ren, RED, GREEN, BLUE, 100) != 0 )
+	{
+		std::cout << "SDL_SetRenderDrawColor: failed\n";
+	}
+	
 	
 	std::string sciezka = "./obrazy/tlo_czarne.bmp";
 	SDL_Surface * bmp = SDL_LoadBMP(sciezka.c_str());
@@ -188,7 +194,7 @@ int main ( int argc, char * argv[] )
 			}
 			
 			SDL_RenderClear( ren );
-			SDL_RenderCopy( ren, tlo, NULL, NULL );
+			//SDL_RenderCopy( ren, tlo, NULL, NULL );
 			siata.show( ren );
 			
 			player1.move (ruch1x, ruch1);

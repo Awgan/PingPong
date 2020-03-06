@@ -3,6 +3,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include "paletka.h"
+#include "stale.h"
 
 const std::string paletkaFile = "./obrazy/sprit_pistacja.bmp" ;
 
@@ -15,10 +16,12 @@ Paletka::Paletka( SDL_Renderer * ren, int x, int y )
 	pozX = startX;
 	pozY = startY;
 	
+	/*
 	paletkaRect.x = 0;
 	paletkaRect.y = 0;
 	paletkaRect.w = szer;
 	paletkaRect.h = wys;
+	*/
 	
 	player.x = pozX;
 	player.y = pozY;
@@ -38,7 +41,13 @@ Paletka::~Paletka()
 
 void Paletka::show( SDL_Renderer * ren ) const
 {
-	SDL_RenderCopy( ren, paletkaTex, &paletkaRect, &player );
+	
+	Uint8 r, g, b, a;
+	SDL_GetRenderDrawColor( ren, &r, &g, &b, &a );	
+	SDL_SetRenderDrawColor( ren, 0, 153, 76, 100 );
+	SDL_RenderFillRect( ren, &player );
+	//SDL_RenderCopy( ren, paletkaTex, &paletkaRect, &player );
+	SDL_SetRenderDrawColor( ren, r, g, b, a );
 }
 
 void Paletka::moveY( int& dy )

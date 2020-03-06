@@ -13,6 +13,9 @@
 //static const std::string pilkaFile = "./obrazy/sprit_pistacja.bmp" ;
 static const std::string pilkaFile = "./obrazy/kula_ognia_01.bmp";
 
+static int speed = 0;
+
+
 
 Pilka::Pilka(SDL_Renderer * ren)
 {
@@ -23,7 +26,7 @@ Pilka::Pilka(SDL_Renderer * ren)
 	pozY = OKNO_WYS / 2;
 	
 	alfa = 0;
-	b = pozY;
+	b = pozY;		// y = ax + b >> alfa = a, b = b
 	
 	kierunek = 'p';
 	
@@ -71,22 +74,22 @@ void Pilka::reset()
 
 void Pilka::move()
 {
-	int x = 7;
+	speed = 7;
 	
 	if ( czyodbita == false )
-		x = 3;
+		speed = 3;
 	else
-		x = 7;
+		speed = 17;
 	
 	switch (kierunek)
 	{
 		case 'p':
-		pozX += x;
+		pozX += speed;
 		pozY = alfa * pozX + b;
 		break;
 		
 		case 'l':
-		pozX -= x;
+		pozX -= speed;
 		pozY = alfa * pozX + b;
 		break;
 		
@@ -151,24 +154,28 @@ bool Pilka::kolizja( Paletka & p1, Paletka & p2 )
 	int p1X = p1.getPozX();
 	int p2X = p2.getPozX();
 	
+	int tempX, tempY;		//it is needed to check position of the ball one step before, as there was problem with high speed ball witch was not chatched by player
+	kierunek == 'p'? tempX = pozX - speed : tempX = pozX + speed;
+	tempY = alfa * tempX + b;
+	
 	switch (kierunek)
 	{
 		case 'p':
-			if ( 	pozX + PILKA_SZER >= p2X && pozX + PILKA_SZER <= p2X + 15 &&
-					( pozY + PILKA_WYS >= p2Y && pozY <= p2Y + PALETKA_WYS )
+			if ( 	tempX + PILKA_SZER >= p2X && tempX + PILKA_SZER <= p2X + 15 &&
+					( tempY + PILKA_WYS >= p2Y && tempY <= p2Y + PALETKA_WYS )
 				)
 			{
 				katOdbicia( p2, kierunek );
-				
 				kierunek = 'l';
 				//std::cout << "teraz w LEWO!\n";
+				
 				return true;
 			}	
 		break;
 		
 		case 'l':
-			if ( 	pozX <= p1X + PALETKA_SZER && pozX >= p1X + PALETKA_SZER - 15 &&
-					( pozY + PILKA_WYS >= p1Y && pozY <= p1Y + PALETKA_WYS )
+			if ( 	tempX <= p1X + PALETKA_SZER && tempX >= p1X + PALETKA_SZER - 15 &&
+					( tempY + PILKA_WYS >= p1Y && tempY <= p1Y + PALETKA_WYS )
 				)
 			{
 				katOdbicia( p1, kierunek );
@@ -187,8 +194,8 @@ bool Pilka::kolizja( Paletka & p1, Paletka & p2 )
 
 void Pilka::katOdbicia( Paletka & p1, char & kier)
 {
-	int piSrY = pozY + ( PILKA_WYS / 2 );
-	int p1SrY = p1.getPozY() + ( PALETKA_WYS / 2 );
+	int piSrY = pozY + ( PILKA_WYS / 2 );				// center of the ball
+	int p1SrY = p1.getPozY() + ( PALETKA_WYS / 2 );		// center of the player
 		
 	double katPoz0 = 0;
 	double katPozMax = 30;

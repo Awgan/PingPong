@@ -24,6 +24,8 @@ extern int OKNO_WYS		;
 extern int PL2_POZ_X		;
 extern int PL_POZ_Y		;
 extern int SIATKA_WYS		;
+
+enum { RED = 81, GREEN = 88, BLUE = 112 };
 	
 inline void staleRun()
 {
